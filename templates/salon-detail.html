@@ -1,0 +1,271 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5 pt-4">
+  <!-- Хлебные крошки -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item"><a href="/catalog">Каталог салонов</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ salon.name }}</li>
+    </ol>
+  </nav>
+
+  <!-- Шапка салона -->
+  <div class="salon-header mb-5">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="salon-title">{{ salon.name }}</h1>
+        <p class="text-muted">{{ salon.category }}</p>
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="rating me-3">
+            {% for i in range(5) %}
+              {% if i < salon.rating|int %}
+              <i class="bi bi-star-fill text-warning"></i>
+              {% elif i < salon.rating %}
+              <i class="bi bi-star-half text-warning"></i>
+              {% else %}
+              <i class="bi bi-star text-secondary"></i>
+              {% endif %}
+            {% endfor %}
+            <span class="ms-2">{{ "%.1f"|format(salon.rating) }} ({{ salon.reviews_count }} отзывов)</span>
+          </div>
+          {% if salon.is_verified %}
+          <span class="badge bg-success me-2">
+            <i class="bi bi-check-circle me-1"></i> Проверенный салон
+          </span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="salon-actions">
+          {% if salon.phone %}
+          <button class="btn btn-beauty mb-2 w-100" onclick="alert('Запись по телефону: {{ salon.phone }}')">
+            <i class="bi bi-telephone me-1"></i> Записаться
+          </button>
+          {% endif %}
+          <button class="btn btn-outline-beauty w-100" id="favoriteBtn">
+            <i class="bi bi-heart me-1"></i> В избранное
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <!-- Одно фото салона -->
+      <div class="salon-photo mb-4">
+        <img
+          src="{{ salon.image_url }}"
+          alt="{{ salon.name }}"
+          class="img-fluid rounded shadow"
+          style="height: 300px; object-fit: cover; width: 100%;"
+          onerror="this.src='/static/img/default.png'"
+        />
+      </div>
+      
+      <!-- Информация -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Информация</h5>
+          <p class="mb-2">
+            <i class="bi bi-geo-alt service-price me-2"></i>
+            <strong>Адрес:</strong> {{ salon.address }}
+          </p>
+          <p class="mb-2">
+            <i class="bi bi-pin-map service-price me-2"></i>
+            <strong>Район:</strong> {{ salon.district }}
+          </p>
+          {% if salon.phone %}
+          <p class="mb-2">
+            <i class="bi bi-telephone service-price me-2"></i>
+            <strong>Телефон:</strong> {{ salon.phone }}
+          </p>
+          {% endif %}
+          {% if salon.working_hours %}
+          <p class="mb-0">
+            <i class="bi bi-clock service-price me-2"></i>
+            <strong>Время работы:</strong><br>
+            {{ salon.working_hours|replace('\n', '<br>')|safe }}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <!-- Описание -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">О салоне</h5>
+          <p class="card-text">{{ salon.description }}</p>
+        </div>
+      </div>
+      
+      <!-- Услуги -->
+      {% if services_by_category %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Услуги и цены</h5>
+          <div class="accordion" id="servicesAccordion">
+            {% for category, services_list in services_by_category.items() %}
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                        type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse{{ loop.index }}">
+                  {{ category }}
+                </button>
+              </h3>
+              <div id="collapse{{ loop.index }}" 
+                   class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                   data-bs-parent="#servicesAccordion">
+                <div class="accordion-body">
+                  {% for service in services_list %}
+                  <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <div>
+                      <h6 class="mb-1">{{ service.name }}</h6>
+                      {% if service.description %}
+                      <small class="text-muted">{{ service.description }}</small>
+                      {% endif %}
+                    </div>
+                    <div>
+                      <strong class="service-price">
+                        {% if service.price %}
+                          {{ "%.0f"|format(service.price / 100) }} ₽
+                        {% else %}
+                          По запросу
+                        {% endif %}
+                      </strong>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Отзывы -->
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="card-title mb-0">Отзывы</h5>
+            <button class="btn btn-beauty btn-sm">
+              <i class="bi bi-pencil me-1"></i> Написать отзыв
+            </button>
+          </div>
+          
+          {% if reviews %}
+          <div class="review-list">
+            {% for review in reviews %}
+            <div class="review-item mb-3 p-3 border rounded">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-person-circle me-2" ></i>
+                  <div>
+                    <h6 class="mb-0">{{ review.author_name }}</h6>
+                    <small class="text-muted">
+                      {% if review.created_at %}
+                        {{ review.created_at.strftime('%d.%m.%Y') }}
+                      {% endif %}
+                    </small>
+                  </div>
+                </div>
+                <div class="rating">
+                  {% for i in range(5) %}
+                    {% if i < review.rating %}
+                    <i class="bi bi-star-fill text-warning"></i>
+                    {% else %}
+                    <i class="bi bi-star text-secondary"></i>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <p class="mb-2">{{ review.text }}</p>
+              {% if review.tags %}
+              <div class="review-tags">
+                {% for tag in review.tags.split(',') %}
+                <span class="badge bg-light text-dark me-1">{{ tag.strip() }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="bi bi-chat-left-text display-4 text-muted mb-3"></i>
+            <p class="text-muted">Отзывов пока нет. Будьте первым!</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик кнопки избранного
+    const favoriteBtn = document.getElementById('favoriteBtn');
+    if (favoriteBtn) {
+      favoriteBtn.addEventListener('click', function() {
+        const salonName = document.querySelector('.salon-title').textContent;
+        const icon = this.querySelector('i');
+        
+        if (icon.classList.contains('bi-heart')) {
+          icon.classList.remove('bi-heart');
+          icon.classList.add('bi-heart-fill');
+          this.classList.remove('btn-outline-beauty');
+          this.classList.add('btn-beauty');
+          showToast(`"${salonName}" добавлен в избранное`);
+        } else {
+          icon.classList.remove('bi-heart-fill');
+          icon.classList.add('bi-heart');
+          this.classList.remove('btn-beauty');
+          this.classList.add('btn-outline-beauty');
+          showToast(`"${salonName}" удален из избранного`);
+        }
+      });
+    }
+    
+    // Функция уведомлений
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 p-3';
+      toast.style.zIndex = '11';
+      
+      const toastInner = document.createElement('div');
+      toastInner.className = 'toast show';
+      toastInner.innerHTML = `
+        <div class="toast-header bg-success text-white">
+          <strong class="me-auto">Уведомление</strong>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+          ${message}
+        </div>
+      `;
+      
+      toast.appendChild(toastInner);
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+    
+    // Обработка ошибок изображений
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', function() {
+        this.src = '/static/img/default.png';
+        this.onerror = null;
+      });
+    });
+  });
+</script>
+{% endblock %}

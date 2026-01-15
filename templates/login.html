@@ -1,0 +1,89 @@
+{% extends "base.html" %} {% block content %}
+    <!-- Контент страницы входа -->
+    <div class="auth-container">
+      <div class="auth-card">
+        <!-- Логотип -->
+        <div class="auth-logo">
+          <i class="bi bi-scissors"></i>
+          <h1>BeautyCity</h1>
+        </div>
+
+        <!-- Заголовок -->
+        <h2 class="auth-title">Вход в аккаунт</h2>
+
+        <!-- Форма входа -->
+        <form id="loginForm">
+          <!-- Email -->
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="name@example.com"
+              required
+            />
+            <label for="email">Email адрес</label>
+          </div>
+
+          <!-- Пароль -->
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="Пароль"
+              required
+            />
+            <label for="password">Пароль</label>
+          </div>
+
+          <!-- Запомнить меня -->
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember" />
+              <label class="form-check-label" for="remember">
+                Запомнить меня
+              </label>
+            </div>
+          </div>
+
+          <!-- Кнопка входа -->
+          <button type="submit" class="btn btn-auth mb-3">Войти</button>
+
+       
+
+        <!-- Ссылка на регистрацию -->
+        <div class="auth-footer">
+          <p>Еще нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>
+          <p><a href="/">← Вернуться на главную</a></p>
+        </div>
+      </div>
+    </div>
+ <!-- Bootstrap JS -->
+    
+
+    <!-- Минимальный JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Обработка формы входа
+        document
+          .getElementById("loginForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email && password) {
+              alert("Вход выполнен успешно! (функция в разработке)");
+              // В реальном приложении здесь была бы отправка данных на сервер
+            } else {
+              alert("Пожалуйста, заполните все поля");
+            }
+          });
+      });
+    </script>
+ {% endblock %}
+
+   
+

@@ -1,0 +1,237 @@
+{% extends "base.html" %} {% block content %}
+<!-- Контент страницы контактов -->
+<div class="container mt-5 pt-4">
+  <!-- Хлебные крошки -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Контакты и информация
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Заголовок -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <h1 class="page-title">Контакты и информация</h1>
+      <p class="lead-contact">
+        Вся необходимая информация о проекте BeautyCity
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Основной контент -->
+    <div class="col-lg-8">
+      <!-- Контактная информация -->
+      <div class="contact-card mb-5">
+        <h2 class="section-title">Контактная информация</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="contact-item mb-4">
+              <div class="contact-icon">
+                <i class="bi bi-envelope"></i>
+              </div>
+              <div>
+                <h5>Email</h5>
+                <p>info@beauty-city.ru</p>
+                <p class="small text-muted">
+                  Для общих вопросов и сотрудничества
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item mb-4">
+              <div class="contact-icon">
+                <i class="bi bi-telephone"></i>
+              </div>
+              <div>
+                <h5>Телефон</h5>
+                <p>+7 (XXX) XXX-XX-XX</p>
+                <p class="small text-muted">Пн-Пт: 9:00-18:00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="contact-item mb-4">
+              <div class="contact-icon">
+                <i class="bi bi-geo-alt"></i>
+              </div>
+              <div>
+                <h5>Адрес</h5>
+                <p>г. Ваш Город, ул. Примерная, 123</p>
+                <p class="small text-muted">Центральный офис</p>
+              </div>
+            </div>
+
+            <div class="contact-item mb-4">
+              <div class="contact-icon">
+                <i class="bi bi-clock"></i>
+              </div>
+              <div>
+                <h5>Режим работы</h5>
+                <p>Понедельник - Пятница: 9:00-18:00</p>
+                <p>Суббота - Воскресенье: выходной</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- О проекте -->
+      <div class="info-card mb-5">
+        <h2 class="section-title">О проекте</h2>
+        <div class="about-content">
+          <p>
+            BeautyCity — это информационный ресурс, созданный для помощи жителям
+            города в поиске лучших салонов красоты, парикмахерских и
+            СПА-центров.
+          </p>
+
+          <h5>Наша миссия</h5>
+          <p>
+            Предоставлять актуальную и достоверную информацию о салонах красоты,
+            помогать пользователям делать осознанный выбор на основе реальных
+            отзывов и рейтингов.
+          </p>
+
+          <h5>Что мы предлагаем</h5>
+          <ul>
+            <li>Полный каталог салонов красоты вашего города</li>
+            <li>Реальные отзывы от посетителей</li>
+            <li>Рейтинги и оценки по различным критериям</li>
+            <li>Актуальную информацию об услугах и ценах</li>
+            <li>Полезные статьи и советы по уходу</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Форма обратной связи -->
+      <div class="contact-form-card mb-5">
+        <h2 class="section-title">Обратная связь</h2>
+        <p class="mb-4">Есть вопросы или предложения? Напишите нам!</p>
+
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Ваше имя"
+                />
+                <label for="name">Ваше имя</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Email"
+                />
+                <label for="email">Email</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="subject"
+              placeholder="Тема"
+            />
+            <label for="subject">Тема сообщения</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <textarea
+              class="form-control"
+              id="message"
+              placeholder="Сообщение"
+              style="height: 150px"
+            ></textarea>
+            <label for="message">Сообщение</label>
+          </div>
+
+          <button type="submit" class="btn btn-beauty">
+            <i class="bi bi-send me-2"></i> Отправить сообщение
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Сайдбар -->
+    <div class="col-lg-4">
+      <!-- Навигация по разделам -->
+      <div class="sidebar-nav mb-4">
+        <h5 class="sidebar-title">Разделы информации</h5>
+        <div class="nav-list">
+          <a href="#about" class="nav-item side-item active">
+            <i class="bi bi-info-circle me-2"></i> О проекте
+          </a>
+          <a href="#rules" class="nav-item side-item">
+            <i class="bi bi-journal-text me-2"></i> Правила сайта
+          </a>
+          <a href="#privacy" class="nav-item side-item">
+            <i class="bi bi-shield-check me-2"></i> Политика конфиденциальности
+          </a>
+          <a href="#for-salons" class="nav-item side-item">
+            <i class="bi bi-building me-2"></i> Для салонов
+          </a>
+          <a href="#ads" class="nav-item side-item">
+            <i class="bi bi-megaphone me-2"></i> Реклама на сайте
+          </a>
+          <a href="#help" class="nav-item side-item">
+            <i class="bi bi-question-circle me-2"></i> Помощь
+          </a>
+          <a href="#faq" class="nav-item side-item">
+            <i class="bi bi-chat-left-text me-2"></i> Вопросы и ответы
+          </a>
+          <a href="#support" class="nav-item side-item">
+            <i class="bi bi-headset me-2"></i> Поддержка
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap JS -->
+
+
+<!-- Минимальный JS -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Обработка формы
+    document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Сообщение отправлено! Мы свяжемся с вами в ближайшее время.");
+      this.reset();
+    });
+
+    // Навигация по разделам
+    document.querySelectorAll(".side-item").forEach((item) => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Убираем активный класс у всех
+        document.querySelectorAll(".side-item").forEach((i) => {
+          i.classList.remove("active");
+        });
+
+        // Добавляем активный класс текущему
+        this.classList.add("active");
+
+        // Показываем сообщение (в реальном проекте здесь был бы переход к разделу)
+        const sectionName = this.textContent.trim();
+        alert(`Переход к разделу: ${sectionName} (функция в разработке)`);
+      });
+    });
+  });
+</script>
+{% endblock %}

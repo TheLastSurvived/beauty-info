@@ -1,0 +1,326 @@
+{% extends "base.html" %} {% block content %}
+<!-- Контент страницы каталога -->
+<div class="container mt-5 pt-4">
+  <!-- Хлебные крошки -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Каталог салонов
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Форма поиска -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1 class="page-title">Каталог салонов красоты</h1>
+      <p class="text-muted">Найдено салонов: {{ salons|length }}</p>
+    </div>
+    <div class="col-md-4">
+      <div class="d-flex justify-content-md-end align-items-center">
+        <!-- Форма сортировки -->
+        <form method="get" action="/catalog" class="d-flex align-items-center">
+          <label class="me-2">Сортировка:</label>
+          <select class="form-select" name="sort_by" onchange="this.form.submit()">
+            <option value="popular" {% if current_sort == 'popular' %}selected{% endif %}>Сначала популярные</option>
+            <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>По рейтингу</option>
+            <option value="reviews" {% if current_sort == 'reviews' %}selected{% endif %}>По количеству отзывов</option>
+            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>По названию (А-Я)</option>
+          </select>
+          <!-- Скрытые поля для сохранения фильтров -->
+          {% if current_category %}
+          <input type="hidden" name="category" value="{{ current_category }}">
+          {% endif %}
+          {% if current_district %}
+          <input type="hidden" name="district" value="{{ current_district }}">
+          {% endif %}
+          {% if current_rating %}
+          <input type="hidden" name="min_rating" value="{{ current_rating }}">
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Сайдбар с фильтрами -->
+    <div class="col-lg-3 mb-4">
+      <div class="filter-sidebar">
+        <div class="filter-header">
+          <h5><i class="bi bi-funnel me-2"></i>Фильтры</h5>
+          <a href="/catalog" class="btn btn-sm btn-link text-decoration-none">
+            Сбросить все
+          </a>
+        </div>
+
+        <!-- Форма фильтров -->
+        <form method="get" action="/catalog" id="filterForm">
+          
+          <!-- Фильтр по категориям -->
+          <div class="filter-section">
+            <h6 class="filter-title">Категория</h6>
+            <div class="filter-options">
+              {% for category in categories %}
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio"  
+                  name="category" 
+                  value="{{ category }}" 
+                  id="category{{ loop.index }}"
+                  {% if current_category == category %}checked{% endif %}
+                  onchange="this.form.submit()"
+                />
+                <label class="form-check-label" for="category{{ loop.index }}">
+                  {{ category }}
+                  <span class="text-muted">({{ category_counts[category] }})</span>
+                </label>
+              </div>
+              {% endfor %}
+              <!-- Опция "Все категории" -->
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="category" 
+                  value="" 
+                  id="categoryAll"
+                  {% if not current_category %}checked{% endif %}
+                  onchange="this.form.submit()"
+                />
+                <label class="form-check-label" for="categoryAll">
+                  Все категории
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Фильтр по районам -->
+          <div class="filter-section">
+            <h6 class="filter-title">Район</h6>
+            <div class="filter-options">
+              {% for district in districts %}
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="district" 
+                  value="{{ district }}" 
+                  id="district{{ loop.index }}"
+                  {% if current_district == district %}checked{% endif %}
+                  onchange="this.form.submit()"
+                />
+                <label class="form-check-label" for="district{{ loop.index }}">
+                  {{ district }}
+                  <span class="text-muted">({{ district_counts[district] }})</span>
+                </label>
+              </div>
+              {% endfor %}
+              <!-- Опция "Все районы" -->
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="district" 
+                  value="" 
+                  id="districtAll"
+                  {% if not current_district %}checked{% endif %}
+                  onchange="this.form.submit()"
+                />
+                <label class="form-check-label" for="districtAll">
+                  Все районы
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Фильтр по рейтингу -->
+          <div class="filter-section">
+            <h6 class="filter-title">Минимальный рейтинг</h6>
+            <div class="filter-options">
+              <select class="form-select" name="min_rating" onchange="this.form.submit()">
+                <option value="">Любой рейтинг</option>
+                <option value="4.5" {% if current_rating == "4.5" %}selected{% endif %}>4.5 и выше</option>
+                <option value="4.0" {% if current_rating == "4.0" %}selected{% endif %}>4.0 и выше</option>
+                <option value="3.5" {% if current_rating == "3.5" %}selected{% endif %}>3.5 и выше</option>
+                <option value="3.0" {% if current_rating == "3.0" %}selected{% endif %}>3.0 и выше</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Скрытое поле для сортировки -->
+          <input type="hidden" name="sort_by" value="{{ current_sort }}">
+          
+          <!-- Кнопка применения (не нужна с onchange, но оставим для визуала) -->
+          <button type="submit" class="btn btn-beauty w-100 mt-3">
+            <i class="bi bi-check-circle me-1"></i> Применить фильтры
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Основной контент с карточками салонов -->
+    <div class="col-lg-9">
+      <!-- Информация о примененных фильтрах -->
+      {% if current_category or current_district or current_rating %}
+      <div class="alert alert-info mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Примененные фильтры:</strong>
+            {% if current_category %}
+            <span class="badge bg-primary ms-2">Категория: {{ current_category }}</span>
+            {% endif %}
+            {% if current_district %}
+            <span class="badge bg-primary ms-2">Район: {{ current_district }}</span>
+            {% endif %}
+            {% if current_rating %}
+            <span class="badge bg-primary ms-2">Рейтинг: от {{ current_rating }}</span>
+            {% endif %}
+          </div>
+          <a href="/catalog" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-x-circle"></i> Сбросить
+          </a>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Карточки салонов -->
+      <div class="row" id="salonsContainer">
+        {% if salons %}
+          {% for salon in salons %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="catalog-salon-card">
+              <div class="catalog-salon-image">
+                <img
+                  src="{{ salon.image_url }}"
+                  alt="{{ salon.name }}"
+                  class="img-fluid"
+                />
+                <div class="salon-category-badge">{{ salon.category }}</div>
+              </div>
+              <div class="catalog-salon-content">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h5 class="salon-name">{{ salon.name }}</h5>
+                  <div class="salon-rating">
+                    <span class="rating-number">{{ "%.1f"|format(salon.rating) }}</span>
+                  </div>
+                </div>
+                <div class="rating mb-2">
+                  {% for i in range(5) %}
+                    {% if i < salon.rating|int %}
+                    <i class="bi bi-star-fill text-warning"></i>
+                    {% elif i < salon.rating %}
+                    <i class="bi bi-star-half text-warning"></i>
+                    {% else %}
+                    <i class="bi bi-star text-secondary"></i>
+                    {% endif %}
+                  {% endfor %}
+                  <span class="text-muted ms-2">({{ salon.reviews_count }})</span>
+                </div>
+                <p class="salon-address mb-2">
+                  <i class="bi bi-geo-alt me-1"></i>{{ salon.address }}
+                </p>
+                <p class="salon-district mb-3">
+                  <i class="bi bi-pin-map me-1"></i>{{ salon.district }}
+                </p>
+                {% if salon.is_verified %}
+                <p class="text-success mb-2">
+                  <i class="bi bi-check-circle-fill"></i> Проверенный салон
+                </p>
+                {% endif %}
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <a href="/catalog/{{ salon.id }}" class="btn btn-beauty btn-sm">
+                    <i class="bi bi-eye me-1"></i> Подробнее
+                  </a>
+                  <button class="btn btn-outline-beauty btn-sm">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12 text-center py-5">
+            <div class="empty-state">
+              <i class="bi bi-emoji-frown display-1 text-muted mb-3"></i>
+              <h3>Салонов не найдено</h3>
+              <p class="text-muted mb-4">Попробуйте изменить параметры фильтрации</p>
+              <a href="/catalog" class="btn btn-beauty">
+                <i class="bi bi-arrow-clockwise me-1"></i> Сбросить фильтры
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Простой JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация tooltips
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Обработчик для кнопок избранного
+    document.querySelectorAll('.btn-outline-beauty').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const salonCard = this.closest('.catalog-salon-card');
+        const salonName = salonCard.querySelector('.salon-name').textContent;
+        
+        // Меняем иконку при клике
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('bi-heart')) {
+          icon.classList.remove('bi-heart');
+          icon.classList.add('bi-heart-fill');
+          this.classList.remove('btn-outline-beauty');
+          this.classList.add('btn-beauty');
+          showToast(`Салон "${salonName}" добавлен в избранное`);
+        } else {
+          icon.classList.remove('bi-heart-fill');
+          icon.classList.add('bi-heart');
+          this.classList.remove('btn-beauty');
+          this.classList.add('btn-outline-beauty');
+          showToast(`Салон "${salonName}" удален из избранного`);
+        }
+      });
+    });
+
+    // Функция для показа уведомлений
+    function showToast(message) {
+      // Создаем простое уведомление
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 p-3';
+      toast.style.zIndex = '11';
+      
+      const toastInner = document.createElement('div');
+      toastInner.className = 'toast show';
+      toastInner.innerHTML = `
+        <div class="toast-header bg-success text-white">
+          <strong class="me-auto">Уведомление</strong>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+          ${message}
+        </div>
+      `;
+      
+      toast.appendChild(toastInner);
+      document.body.appendChild(toast);
+      
+      // Удаляем через 3 секунды
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+  });
+</script>
+{% endblock %}

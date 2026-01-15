@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block content %}
+<!-- Контент страницы регистрации -->
+<div class="auth-container">
+  <div class="auth-card">
+    <!-- Логотип -->
+    <div class="auth-logo">
+      <i class="bi bi-scissors"></i>
+      <h1>BeautyCity</h1>
+    </div>
+
+    <!-- Заголовок -->
+    <h2 class="auth-title">Создание аккаунта</h2>
+
+    <!-- Форма регистрации -->
+    <form id="registerForm">
+      <!-- Имя и Фамилия -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              placeholder="Имя"
+              required
+            />
+            <label for="firstName">Имя</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              placeholder="Фамилия"
+              required
+            />
+            <label for="lastName">Фамилия</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="name@example.com"
+          required
+        />
+        <label for="email">Email адрес</label>
+      </div>
+
+      <!-- Пароль -->
+      <div class="form-floating mb-2">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Пароль"
+          required
+        />
+        <label for="password">Пароль</label>
+      </div>
+
+      <!-- Кнопка регистрации -->
+      <button type="submit" class="btn btn-auth mb-3">
+        Зарегистрироваться
+      </button>
+    </form>
+
+    <!-- Ссылка на вход -->
+    <div class="auth-footer">
+      <p>Уже есть аккаунт? <a href="/login">Войдите</a></p>
+      <p><a href="/">← Вернуться на главную</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

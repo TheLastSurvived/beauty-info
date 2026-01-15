@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-scissors me-2"></i>BeautyCity
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/catalog">Каталог салонов</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blog">Статьи</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">Контакты</a>
+            </li>
+          </ul>
+
+            <form class="d-flex me-3 search-form" action="/catalog/search" method="post">
+            <div class="input-group search-form">
+              <input
+                type="text"
+                class="form-control search-input"
+                placeholder="Поиск салонов..."
+                name="search_query"
+                aria-label="Поиск салонов"
+              />
+              <button class="btn search-btn" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+
+            
+          </form>
+
+          <div class="d-flex">
+            <a class="btn btn-beauty me-2" href="/login">
+              <i class="bi bi-person me-1"></i> Войти
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-4">
+            <h4 class="mb-3"><i class="bi bi-scissors me-2"></i>BeautyCity</h4>
+            <p>
+              Крупнейший информационный ресурс о салонах красоты, парикмахерских
+              и СПА-центрах вашего города. Реальные отзывы, рейтинги и полная
+              информация.
+            </p>
+            <div class="d-flex mt-4">
+              <a href="#" class="me-3 social-icon">
+                <i class="bi bi-facebook fs-5"></i>
+              </a>
+              <a href="#" class="me-3 social-icon">
+                <i class="bi bi-instagram fs-5"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="bi bi-telegram fs-5"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <h5 class="mb-3">Ресурс</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="/contact">О проекте</a></li>
+              <li class="mb-2"><a href="/contact">Правила сайта</a></li>
+              <li class="mb-2">
+                <a href="/contact">Политика конфиденциальности</a>
+              </li>
+              <li class="mb-2"><a href="/contact">Для салонов</a></li>
+              <li class="mb-2"><a href="/contact">Реклама на сайте</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <h5 class="mb-3">Помощь</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a href="/contact">Как оставить отзыв</a>
+              </li>
+              <li class="mb-2"><a href="/contact">Вопросы и ответы</a></li>
+              <li class="mb-2"><a href="/contact">Контакты</a></li>
+              <li class="mb-2"><a href="/contact">Поддержка</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <h5 class="mb-3">Контакты</h5>
+            <p><i class="bi bi-envelope me-2"></i> info@beauty-city.ru</p>
+            <p><i class="bi bi-telephone me-2"></i> +375 (XX) XXX-XX-XX</p>
+            <p><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00-18:00</p>
+            <p>
+              <i class="bi bi-geo-alt me-2"></i> г. Ваш Город, ул. Примерная,
+              123
+            </p>
+          </div>
+        </div>
+        <hr class="mt-4 mb-4" />
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-0">
+              © 2026 BeautyCity. Информационный ресурс. Все права защищены.
+            </p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p class="mb-0">Информация предоставлена в ознакомительных целях</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

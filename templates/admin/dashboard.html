@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Админ-панель</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <h3>Товары ({{ items|length }})</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.price / 100 if item.price else '-' }} руб.</td>
+                    <td>{{ item.created_at.strftime('%d.%m.%Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="col-md-4">
+        <h3>Последние сообщения</h3>
+        {% for message in messages %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <h6>{{ message.name }}</h6>
+                <small>{{ message.email }}</small>
+                <p class="mt-2">{{ message.message[:50] }}...</p>
+                <small class="text-muted">{{ message.created_at.strftime('%H:%M %d.%m.%Y') }}</small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

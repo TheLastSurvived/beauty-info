@@ -1,0 +1,548 @@
+{% extends "base.html" %} {% block content %}
+
+<!-- Hero секция -->
+<section class="hero-section">
+  <div class="container">
+    <div
+      class="row d-flex justify-content-center align-items-center text-center"
+    >
+      <div class="col-lg-8">
+        <h1 class="hero-title">Всё о салонах красоты вашего города</h1>
+        <p class="lead mb-4">
+          Полная информация о 250+ салонах красоты, парикмахерских и спа-центрах
+          с реальными отзывами и рейтингами
+        </p>
+
+        <div class="stats-container">
+          <div class="row">
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <h3 class="stat-number">250+</h3>
+                <p class="stat-label">Салонов</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <h3 class="stat-number">1,200+</h3>
+                <p class="stat-label">Отзывов</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <h3 class="stat-number">4.5</h3>
+                <p class="stat-label">Средний рейтинг</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <h3 class="stat-number">15</h3>
+                <p class="stat-label">Категорий услуг</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Лучшие салоны по рейтингу -->
+<section class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-title mb-0">Топ салонов по рейтингу</h2>
+    <a href="#" class="text-decoration-none"
+      >Весь рейтинг <i class="bi bi-arrow-right"></i
+    ></a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="top-salon-card top-1">
+        <div class="top-badge">#1</div>
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="../static/img/4.jpg" class="top-salon-img" alt="Элит Стиль" />
+          </div>
+          <div class="col-md-7">
+            <div class="p-3">
+              <h5 class="mb-1">Элит Стиль</h5>
+              <p class="text-muted small mb-2">Парикмахерская премиум-класса</p>
+              <div class="d-flex align-items-center mb-2">
+                <div class="rating me-2">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <span class="text-muted small">4.9 (89 отзывов)</span>
+              </div>
+              <div class="salon-info">
+                <p class="small mb-1">
+                  <i class="bi bi-geo-alt me-1"></i>ул. Центральная, 15
+                </p>
+                <p class="small mb-2">
+                  <i class="bi bi-clock me-1"></i>Ежедневно 9:00-21:00
+                </p>
+                <p class="small mb-0">
+                  <i class="bi bi-telephone me-1"></i>+7 (XXX) XXX-XX-XX
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="top-salon-card top-2">
+        <div class="top-badge">#2</div>
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="../static/img/5.jpg" class="top-salon-img" alt="Нежность" />
+          </div>
+          <div class="col-md-7">
+            <div class="p-3">
+              <h5 class="mb-1">Нежность</h5>
+              <p class="text-muted small mb-2">Спа-центр и косметология</p>
+              <div class="d-flex align-items-center mb-2">
+                <div class="rating me-2">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                </div>
+                <span class="text-muted small">4.8 (124 отзыва)</span>
+              </div>
+              <div class="salon-info">
+                <p class="small mb-1">
+                  <i class="bi bi-geo-alt me-1"></i>пр. Победы, 42
+                </p>
+                <p class="small mb-2">
+                  <i class="bi bi-clock me-1"></i>10:00-22:00, без выходных
+                </p>
+                <p class="small mb-0">
+                  <i class="bi bi-telephone me-1"></i>+7 (XXX) XXX-XX-XX
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="top-salon-card top-3">
+        <div class="top-badge">#3</div>
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="../static/img/6.jpg" class="top-salon-img" alt="Ноготки" />
+          </div>
+          <div class="col-md-7">
+            <div class="p-3">
+              <h5 class="mb-1">Ноготки</h5>
+              <p class="text-muted small mb-2">Студия ногтевого сервиса</p>
+              <div class="d-flex align-items-center mb-2">
+                <div class="rating me-2">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                </div>
+                <span class="text-muted small">4.7 (156 отзывов)</span>
+              </div>
+              <div class="salon-info">
+                <p class="small mb-1">
+                  <i class="bi bi-geo-alt me-1"></i>ул. Садовая, 8
+                </p>
+                <p class="small mb-2">
+                  <i class="bi bi-clock me-1"></i>Пн-Пт 9:00-20:00, Сб
+                  10:00-18:00
+                </p>
+                <p class="small mb-0">
+                  <i class="bi bi-telephone me-1"></i>+7 (XXX) XXX-XX-XX
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Категории -->
+<section class="container mb-5">
+  <h2 class="section-title">Категории услуг</h2>
+  <div class="row g-4">
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-scissors"></i>
+          </div>
+          <h5>Парикмахерские</h5>
+          <p class="text-muted">Стрижки, укладки, окрашивание</p>
+          <span class="badge bg-light text-dark">124 салона</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-brush"></i>
+          </div>
+          <h5>Ногтевой сервис</h5>
+          <p class="text-muted">Маникюр, педикюр, наращивание</p>
+          <span class="badge bg-light text-dark">89 салонов</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-droplet"></i>
+          </div>
+          <h5>Косметология</h5>
+          <p class="text-muted">Уходовые процедуры, чистки</p>
+          <span class="badge bg-light text-dark">67 салонов</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-flower1"></i>
+          </div>
+          <h5>Спа и массаж</h5>
+          <p class="text-muted">Релакс, уход за телом</p>
+          <span class="badge bg-light text-dark">42 салона</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Вторая строка категорий -->
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-eyeglasses"></i>
+          </div>
+          <h5>Брови и ресницы</h5>
+          <p class="text-muted">Ламинирование, окрашивание</p>
+          <span class="badge bg-light text-dark">38 салонов</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-diamond"></i>
+          </div>
+          <h5>Тату и пирсинг</h5>
+          <p class="text-muted">Студии татуировки и пирсинга</p>
+          <span class="badge bg-light text-dark">24 салона</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-gender-male"></i>
+          </div>
+          <h5>Мужские салоны</h5>
+          <p class="text-muted">Барбершопы и мужской уход</p>
+          <span class="badge bg-light text-dark">41 салон</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="#" class="text-decoration-none text-dark">
+        <div class="category-card text-center p-4 shadow-sm">
+          <div class="category-icon">
+            <i class="bi bi-rainbow"></i>
+          </div>
+          <h5>Солярии</h5>
+          <p class="text-muted">Студии загара</p>
+          <span class="badge bg-light text-dark">19 салонов</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Последние отзывы -->
+<section class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-title mb-0">Последние отзывы</h2>
+    <a href="#" class="text-decoration-none"
+      >Все отзывы <i class="bi bi-arrow-right"></i
+    ></a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-author">
+            <div class="review-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+              <h6 class="mb-0">Анна К.</h6>
+              <small class="text-muted">3 дня назад</small>
+            </div>
+          </div>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
+        </div>
+        <div class="review-body">
+          <h6>Салон "Элит Стиль"</h6>
+          <p class="mb-2">
+            Отличный салон! Делала стрижку у мастера Марии. Очень внимательный
+            подход, учла все пожелания. Результат превзошел ожидания. Цены
+            адекватные, атмосфера приятная.
+          </p>
+          <div class="review-tags">
+            <span class="badge bg-light text-dark">Стрижка</span>
+            <span class="badge bg-light text-dark">Укладка</span>
+            <span class="badge bg-light text-dark">Вежливый персонал</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-author">
+            <div class="review-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+              <h6 class="mb-0">Елена С.</h6>
+              <small class="text-muted">5 дней назад</small>
+            </div>
+          </div>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+        <div class="review-body">
+          <h6>Студия "Ноготки"</h6>
+          <p class="mb-2">
+            Делала маникюр с покрытием гель-лак. Мастер Ольга - профессионал!
+            Работает аккуратно, безболезненно. Дизайн выполнила точно по
+            картинке. Покрытие держится уже 3 недели.
+          </p>
+          <div class="review-tags">
+            <span class="badge bg-light text-dark">Маникюр</span>
+            <span class="badge bg-light text-dark">Гель-лак</span>
+            <span class="badge bg-light text-dark">Профессионализм</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-author">
+            <div class="review-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+              <h6 class="mb-0">Ольга В.</h6>
+              <small class="text-muted">1 неделю назад</small>
+            </div>
+          </div>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star"></i>
+          </div>
+        </div>
+        <div class="review-body">
+          <h6>Спа-центр "Нежность"</h6>
+          <p class="mb-2">
+            Посетила СПА-программу "Релакс". Очень понравился массаж, но
+            обертывание было недостаточно теплым. Персонал вежливый, атмосфера
+            расслабляющая. В целом впечатление положительное.
+          </p>
+          <div class="review-tags">
+            <span class="badge bg-light text-dark">Массаж</span>
+            <span class="badge bg-light text-dark">Обертывание</span>
+            <span class="badge bg-light text-dark">Релакс</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-author">
+            <div class="review-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+              <h6 class="mb-0">Ирина М.</h6>
+              <small class="text-muted">2 недели назад</small>
+            </div>
+          </div>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
+        </div>
+        <div class="review-body">
+          <h6>Косметология "Люкс"</h6>
+          <p class="mb-2">
+            Проходила чистку лица. Процедура проведена профессионально,
+            безболезненно. Косметолог дала рекомендации по домашнему уходу.
+            Результат заметен сразу, кожа чистая и сияющая.
+          </p>
+          <div class="review-tags">
+            <span class="badge bg-light text-dark">Чистка лица</span>
+            <span class="badge bg-light text-dark">Косметология</span>
+            <span class="badge bg-light text-dark">Профессионализм</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Полезные статьи -->
+<section class="bg-light py-5 mb-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="section-title mb-0">Полезные статьи</h2>
+      <a href="#" class="text-decoration-none"
+        >Все статьи <i class="bi bi-arrow-right"></i
+      ></a>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="article-card">
+          <img src="../static/img/1.jpg" class="article-img" alt="Как выбрать салон" />
+          <div class="article-content">
+            <span class="article-category">Советы</span>
+            <h5 class="article-title">
+              Как выбрать салон красоты: 7 важных критериев
+            </h5>
+            <p class="article-excerpt">
+              На что обратить внимание при выборе салона красоты или
+              парикмахерской...
+            </p>
+            <div class="article-meta">
+              <small class="text-muted">
+                <i class="bi bi-calendar me-1"></i> 15.12.2026
+              </small>
+              <small class="text-muted ms-3">
+                <i class="bi bi-eye me-1"></i> 1.2K
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="article-card">
+          <img src="../static/img/2.jpg" class="article-img" alt="Тренды 2026" />
+          <div class="article-content">
+            <span class="article-category">Тренды</span>
+            <h5 class="article-title">
+              Тренды в парикмахерском искусстве на 2026 год
+            </h5>
+            <p class="article-excerpt">
+              Какие стрижки, цвета и техники окрашивания будут популярны в
+              следующем году...
+            </p>
+            <div class="article-meta">
+              <small class="text-muted">
+                <i class="bi bi-calendar me-1"></i> 10.12.2026
+              </small>
+              <small class="text-muted ms-3">
+                <i class="bi bi-eye me-1"></i> 2.1K
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="article-card">
+          <img src="../static/img/3.jpg" class="article-img" alt="Уход за ногтями" />
+          <div class="article-content">
+            <span class="article-category">Уход</span>
+            <h5 class="article-title">
+              Правильный уход за ногтями между посещениями мастера
+            </h5>
+            <p class="article-excerpt">
+              Как сохранить красоту маникюра дольше и укрепить ногти в домашних
+              условиях...
+            </p>
+            <div class="article-meta">
+              <small class="text-muted">
+                <i class="bi bi-calendar me-1"></i> 05.12.2026
+              </small>
+              <small class="text-muted ms-3">
+                <i class="bi bi-eye me-1"></i> 845
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Районы города -->
+<section class="container mb-5">
+  <h2 class="section-title">Салоны по районам</h2>
+  <div class="row g-3">
+    <div class="col-md-6 col-sm-6">
+      <div class="district-card">
+        <h6>Ленинский район</h6>
+        <p class="text-muted small mb-1">56 салонов</p>
+        <div class="progress" style="height: 8px">
+          <div class="progress-bar" style="width: 85%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div class="district-card">
+        <h6>Октябрьский район</h6>
+        <p class="text-muted small mb-1">42 салона</p>
+        <div class="progress" style="height: 8px">
+          <div class="progress-bar" style="width: 65%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
