@@ -1,3 +1,4 @@
+<!-- blog.html - обновленный шаблон -->
 {% extends "base.html" %} {% block content %}
 <!-- Контент страницы блога -->
 <div class="container mt-5 pt-4">
@@ -16,6 +17,17 @@
       <p class="lead-contact">
         Полезные статьи, советы и тренды из мира красоты
       </p>
+      
+      <!-- Фильтры -->
+      {% if current_category or current_tag or search_query %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        Фильтры:
+        {% if current_category %}Категория: <strong>{{ current_category }}</strong>{% endif %}
+        {% if current_tag %}Тег: <strong>{{ current_tag }}</strong>{% endif %}
+        {% if search_query %}Поиск: <strong>{{ search_query }}</strong>{% endif %}
+        <a href="/blog" class="btn btn-sm btn-beauty ms-2">Сбросить фильтры</a>
+      </div>
+      {% endif %}
     </div>
   </div>
 
@@ -23,139 +35,87 @@
     <!-- Основной контент -->
     <div class="col-lg-8">
       <!-- Последние статьи -->
+      {% if posts %}
       <div class="row mb-5">
-        <!-- Статья 1 -->
+        {% for post in posts %}
         <div class="col-md-6 mb-4">
           <article class="blog-card">
             <div class="blog-image">
-              <img src="../static/img/1.jpg" alt="Как выбрать салон" />
-              <span class="blog-category">Советы</span>
+              {% if post.image_url %}
+              <img src="{{ post.image_url }}" alt="{{ post.title }}" />
+              {% else %}
+              <img src="/static/img/blog-default.jpg" alt="{{ post.title }}" />
+              {% endif %}
+              <span class="blog-category">{{ post.category }}</span>
             </div>
             <div class="blog-content">
               <div class="blog-meta">
-                <span class="date"
-                  ><i class="bi bi-calendar me-1"></i> 15.12.2026</span
-                >
-                <span class="views"><i class="bi bi-eye me-1"></i> 1.2K</span>
+                <span class="date"><i class="bi bi-calendar me-1"></i> {{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                <span class="views"><i class="bi bi-eye me-1"></i> {{ post.views_count }}</span>
+                {% if post.author %}
+                <span class="author"><i class="bi bi-person me-1"></i> {{ post.author }}</span>
+                {% endif %}
               </div>
-              <h3 class="blog-title">
-                Как выбрать салон красоты: 7 важных критериев
-              </h3>
-              <p class="blog-excerpt">
-                На что обратить внимание при выборе салона красоты или
-                парикмахерской, чтобы не разочароваться в результате.
-              </p>
-              <a href="/blog/1" class="read-more"
+              <h3 class="blog-title">{{ post.title }}</h3>
+              <p class="blog-excerpt">{{ post.excerpt[:150] }}...</p>
+              <a href="/blog/{{ post.slug }}" class="read-more"
                 >Читать дальше <i class="bi bi-arrow-right"></i
               ></a>
             </div>
           </article>
         </div>
-
-        <!-- Статья 2 -->
-        <div class="col-md-6 mb-4">
-          <article class="blog-card">
-            <div class="blog-image">
-              <img src="../static/img/2.jpg" alt="Тренды 2026" />
-              <span class="blog-category">Тренды</span>
-            </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="date"
-                  ><i class="bi bi-calendar me-1"></i> 10.12.2026</span
-                >
-                <span class="views"><i class="bi bi-eye me-1"></i> 2.1K</span>
-              </div>
-              <h3 class="blog-title">
-                Тренды в парикмахерском искусстве на 2026 год
-              </h3>
-              <p class="blog-excerpt">
-                Какие стрижки, цвета и техники окрашивания будут популярны в
-                следующем году. Все главные тренды от ведущих стилистов.
-              </p>
-              <a href="/blog/1" class="read-more"
-                >Читать дальше <i class="bi bi-arrow-right"></i
-              ></a>
-            </div>
-          </article>
-        </div>
-
-        <!-- Статья 3 -->
-        <div class="col-md-6 mb-4">
-          <article class="blog-card">
-            <div class="blog-image">
-              <img src="../static/img/3.jpg" alt="Уход за ногтями" />
-              <span class="blog-category">Уход</span>
-            </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="date"
-                  ><i class="bi bi-calendar me-1"></i> 05.12.2026</span
-                >
-                <span class="views"><i class="bi bi-eye me-1"></i> 845</span>
-              </div>
-              <h3 class="blog-title">
-                Правильный уход за ногтями между посещениями мастера
-              </h3>
-              <p class="blog-excerpt">
-                Как сохранить красоту маникюра дольше и укрепить ногти в
-                домашних условиях. Простые правила ухода.
-              </p>
-              <a href="/blog/1" class="read-more"
-                >Читать дальше <i class="bi bi-arrow-right"></i
-              ></a>
-            </div>
-          </article>
-        </div>
-
-        <!-- Статья 4 -->
-        <div class="col-md-6 mb-4">
-          <article class="blog-card">
-            <div class="blog-image">
-              <img src="../static/img/1.jpg" alt="Брови и ресницы" />
-              <span class="blog-category">Брови и ресницы</span>
-            </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="date"
-                  ><i class="bi bi-calendar me-1"></i> 30.11.2026</span
-                >
-                <span class="views"><i class="bi bi-eye me-1"></i> 1.5K</span>
-              </div>
-              <h3 class="blog-title">
-                Ламинирование бровей: что это и кому подходит
-              </h3>
-              <p class="blog-excerpt">
-                Полное руководство по ламинированию бровей: преимущества,
-                противопоказания, уход после процедуры.
-              </p>
-              <a href="/blog/1" class="read-more"
-                >Читать дальше <i class="bi bi-arrow-right"></i
-              ></a>
-            </div>
-          </article>
-        </div>
+        {% endfor %}
       </div>
+      {% else %}
+      <div class="alert alert-warning">
+        <i class="bi bi-info-circle me-2"></i>
+        По вашему запросу ничего не найдено.
+        <a href="/blog" class="alert-link">Показать все статьи</a>
+      </div>
+      {% endif %}
 
       <!-- Пагинация -->
+      {% if total_pages > 1 %}
       <nav aria-label="Навигация по страницам">
         <ul class="pagination justify-content-center">
+          {% if current_page > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="/blog?page={{ current_page - 1 }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          {% else %}
           <li class="page-item disabled">
             <a class="page-link" href="#" tabindex="-1">
               <i class="bi bi-chevron-left"></i>
             </a>
           </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          {% endif %}
+          
+          {% for page_num in range(1, total_pages + 1) %}
+            {% if page_num == current_page %}
+            <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="/blog?page={{ page_num }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">{{ page_num }}</a></li>
+            {% endif %}
+          {% endfor %}
+          
+          {% if current_page < total_pages %}
           <li class="page-item">
+            <a class="page-link" href="/blog?page={{ current_page + 1 }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
             <a class="page-link" href="#">
               <i class="bi bi-chevron-right"></i>
             </a>
           </li>
+          {% endif %}
         </ul>
       </nav>
+      {% endif %}
     </div>
 
     <!-- Сайдбар -->
@@ -164,16 +124,18 @@
       <div class="sidebar-card mb-4">
         <h5 class="sidebar-title">Поиск по блогу</h5>
         <div class="search-form">
-          <div class="input-group">
+          <form action="/blog" method="get" class="d-flex">
             <input
               type="text"
               class="form-control"
+              name="search"
               placeholder="Поиск статей..."
+              value="{{ search_query if search_query else '' }}"
             />
-            <button class="btn btn-beauty">
+            <button type="submit" class="btn btn-beauty ms-2">
               <i class="bi bi-search"></i>
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
@@ -181,34 +143,12 @@
       <div class="sidebar-card mb-4">
         <h5 class="sidebar-title">Категории</h5>
         <div class="categories-list">
-          <a href="#" class="category-item">
-            <span>Советы</span>
-            <span class="count">12</span>
+          {% for cat in categories %}
+          <a href="/blog?category={{ cat.name }}" class="category-item {% if current_category == cat.name %}active{% endif %}">
+            <span>{{ cat.name }}</span>
+            <span class="count">{{ cat.count }}</span>
           </a>
-          <a href="#" class="category-item">
-            <span>Тренды</span>
-            <span class="count">8</span>
-          </a>
-          <a href="#" class="category-item">
-            <span>Уход</span>
-            <span class="count">15</span>
-          </a>
-          <a href="#" class="category-item">
-            <span>Брови и ресницы</span>
-            <span class="count">6</span>
-          </a>
-          <a href="#" class="category-item">
-            <span>Сезонный уход</span>
-            <span class="count">7</span>
-          </a>
-          <a href="#" class="category-item">
-            <span>Мужской уход</span>
-            <span class="count">5</span>
-          </a>
-          <a href="#" class="category-item">
-            <span>Косметология</span>
-            <span class="count">9</span>
-          </a>
+          {% endfor %}
         </div>
       </div>
 
@@ -216,31 +156,24 @@
       <div class="sidebar-card mb-4">
         <h5 class="sidebar-title">Популярные статьи</h5>
         <div class="popular-posts">
-          <a href="/blog/1" class="popular-post">
+          {% for post in popular_posts %}
+          <a href="/blog/{{ post.slug }}" class="popular-post">
             <div class="popular-post-image">
-              <img src="../static/img/2.jpg" alt="Тренды 2026" />
+              {% if post.image_url %}
+              <img src="{{ post.image_url }}" alt="{{ post.title }}" />
+              {% else %}
+              <img src="/static/img/blog-default.jpg" alt="{{ post.title }}" />
+              {% endif %}
             </div>
             <div class="popular-post-content">
-              <h6>Тренды в парикмахерском искусстве на 2026 год</h6>
+              <h6>{{ post.title }}</h6>
               <div class="meta">
-                <span class="date">10.12.2026</span>
-                <span class="views">2.1K просмотров</span>
+                <span class="date">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                <span class="views">{{ post.views_count }} просмотров</span>
               </div>
             </div>
           </a>
-
-          <a href="/blog/1" class="popular-post">
-            <div class="popular-post-image">
-              <img src="../static/img/1.jpg" alt="Как выбрать салон" />
-            </div>
-            <div class="popular-post-content">
-              <h6>Как выбрать салон красоты: 7 важных критериев</h6>
-              <div class="meta">
-                <span class="date">15.12.2026</span>
-                <span class="views">1.2K просмотров</span>
-              </div>
-            </div>
-          </a>
+          {% endfor %}
         </div>
       </div>
 
@@ -248,46 +181,12 @@
       <div class="sidebar-card">
         <h5 class="sidebar-title">Популярные теги</h5>
         <div class="tags">
-          <a href="#" class="tag">стрижка</a>
-          <a href="#" class="tag">окрашивание</a>
-          <a href="#" class="tag">маникюр</a>
-          <a href="#" class="tag">уход за кожей</a>
-          <a href="#" class="tag">брови</a>
-          <a href="#" class="tag">рекомендации</a>
-          <a href="#" class="tag">зимний уход</a>
-          <a href="#" class="tag">тренды</a>
-          <a href="#" class="tag">советы</a>
-          <a href="#" class="tag">мужской уход</a>
+          {% for tag in popular_tags %}
+          <a href="/blog?tag={{ tag.name }}" class="tag {% if current_tag == tag.name %}active{% endif %}">{{ tag.name }}</a>
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
 </div>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Поиск по блогу
-    document
-      .querySelector(".search-form button")
-      .addEventListener("click", function () {
-        const query = document.querySelector(".search-form input").value;
-        if (query) {
-          alert(`Поиск: "${query}" (функция в разработке)`);
-        } else {
-          alert("Введите поисковый запрос");
-        }
-      });
-
-    // Обработка нажатия Enter в поиске
-    document
-      .querySelector(".search-form input")
-      .addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          document.querySelector(".search-form button").click();
-        }
-      });
-  });
-</script>
-
-
-
 {% endblock %}

@@ -102,107 +102,189 @@
       </div>
       
       <!-- Услуги -->
-      {% if services_by_category %}
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Услуги и цены</h5>
-          <div class="accordion" id="servicesAccordion">
-            {% for category, services_list in services_by_category.items() %}
-            <div class="accordion-item">
-              <h3 class="accordion-header">
-                <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
-                        type="button" data-bs-toggle="collapse" 
-                        data-bs-target="#collapse{{ loop.index }}">
-                  {{ category }}
-                </button>
-              </h3>
-              <div id="collapse{{ loop.index }}" 
-                   class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
-                   data-bs-parent="#servicesAccordion">
-                <div class="accordion-body">
-                  {% for service in services_list %}
-                  <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
-                    <div>
-                      <h6 class="mb-1">{{ service.name }}</h6>
-                      {% if service.description %}
-                      <small class="text-muted">{{ service.description }}</small>
-                      {% endif %}
-                    </div>
-                    <div>
-                      <strong class="service-price">
-                        {% if service.price %}
-                          {{ "%.0f"|format(service.price / 100) }} ₽
-                        {% else %}
-                          По запросу
-                        {% endif %}
-                      </strong>
-                    </div>
-                  </div>
-                  {% endfor %}
-                </div>
+      <!-- Услуги -->
+{% if services %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Услуги и цены</h5>
+    
+    {% if services_by_category %}
+    <!-- Вариант 1: Группировка по категориям (если services_by_category передается) -->
+    <div class="accordion" id="servicesAccordion">
+      {% for category, services_list in services_by_category.items() %}
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                  type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#collapse{{ loop.index }}">
+            {{ category }}
+          </button>
+        </h3>
+        <div id="collapse{{ loop.index }}" 
+             class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+             data-bs-parent="#servicesAccordion">
+          <div class="accordion-body">
+            {% for service in services_list %}
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+              <div>
+                <h6 class="mb-1">{{ service.name }}</h6>
+                {% if service.description %}
+                <small class="text-muted">{{ service.description }}</small>
+                {% endif %}
+              </div>
+              <div>
+                <strong class="service-price">
+                  {% if service.price %}
+                    {{ service.price }} ₽
+                  {% else %}
+                    По запросу
+                  {% endif %}
+                </strong>
               </div>
             </div>
             {% endfor %}
           </div>
         </div>
       </div>
-      {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Вариант 2: Простой список (если передается только services) -->
+    <div class="list-group">
+      {% for service in services %}
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+        <div>
+          <h6 class="mb-1">{{ service.name }}</h6>
+          {% if service.category %}
+          <span class="badge bg-light text-dark mb-1">{{ service.category }}</span>
+          {% endif %}
+          {% if service.description %}
+          <small class="text-muted d-block">{{ service.description }}</small>
+          {% endif %}
+        </div>
+        <div>
+          <strong class="service-price">
+            {% if service.price %}
+              {{ service.price }} ₽
+            {% else %}
+              По запросу
+            {% endif %}
+          </strong>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
       
       <!-- Отзывы -->
       <div class="card">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="card-title mb-0">Отзывы</h5>
-            <button class="btn btn-beauty btn-sm">
-              <i class="bi bi-pencil me-1"></i> Написать отзыв
-            </button>
-          </div>
-          
-          {% if reviews %}
-          <div class="review-list">
-            {% for review in reviews %}
-            <div class="review-item mb-3 p-3 border rounded">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <div class="d-flex align-items-center">
-                  <i class="bi bi-person-circle me-2" ></i>
-                  <div>
-                    <h6 class="mb-0">{{ review.author_name }}</h6>
-                    <small class="text-muted">
-                      {% if review.created_at %}
-                        {{ review.created_at.strftime('%d.%m.%Y') }}
-                      {% endif %}
-                    </small>
-                  </div>
-                </div>
-                <div class="rating">
-                  {% for i in range(5) %}
-                    {% if i < review.rating %}
-                    <i class="bi bi-star-fill text-warning"></i>
-                    {% else %}
-                    <i class="bi bi-star text-secondary"></i>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-              </div>
-              <p class="mb-2">{{ review.text }}</p>
-              {% if review.tags %}
-              <div class="review-tags">
-                {% for tag in review.tags.split(',') %}
-                <span class="badge bg-light text-dark me-1">{{ tag.strip() }}</span>
-                {% endfor %}
-              </div>
-              {% endif %}
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="card-title mb-0">Отзывы ({{ reviews|length }})</h5>
+      <button class="btn btn-beauty btn-sm" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+        <i class="bi bi-pencil me-1"></i> Написать отзыв
+      </button>
+    </div>
+    
+    {% if reviews %}
+    <div class="review-list">
+      {% for review in reviews[:5] %}
+      <div class="review-item mb-3 p-3 border rounded">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-person-circle me-2" ></i>
+            <div>
+              <h6 class="mb-0">{{ review.author_name }}</h6>
+              <small class="text-muted">
+                {% if review.created_at %}
+                  {{ review.created_at.strftime('%d.%m.%Y') }}
+                {% endif %}
+              </small>
             </div>
+          </div>
+          <div class="rating">
+            {% for i in range(5) %}
+              {% if i < review.rating %}
+              <i class="bi bi-star-fill text-warning"></i>
+              {% else %}
+              <i class="bi bi-star text-secondary"></i>
+              {% endif %}
             {% endfor %}
           </div>
-          {% else %}
-          <div class="text-center py-4">
-            <i class="bi bi-chat-left-text display-4 text-muted mb-3"></i>
-            <p class="text-muted">Отзывов пока нет. Будьте первым!</p>
+        </div>
+        <p class="mb-2">{{ review.text }}</p>
+        {% if review.tags %}
+        <div class="review-tags">
+          {% for tag in review.tags.split(',') %}
+          <span class="badge bg-light text-dark me-1">{{ tag.strip() }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+      
+      <!-- Кнопка показать все отзывы -->
+      {% if reviews|length > 5 %}
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-beauty" type="button" data-bs-toggle="collapse" data-bs-target="#allReviews" aria-expanded="false" aria-controls="allReviews">
+          <i class="bi bi-chevron-down me-1"></i>
+          Показать все отзывы ({{ reviews|length }})
+        </button>
+      </div>
+      
+      <!-- Все отзывы (скрыты по умолчанию) -->
+      <div class="collapse" id="allReviews">
+        {% for review in reviews[5:] %}
+        <div class="review-item mb-3 p-3 border rounded mt-2">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-person-circle me-2" ></i>
+              <div>
+                <h6 class="mb-0">{{ review.author_name }}</h6>
+                <small class="text-muted">
+                  {% if review.created_at %}
+                    {{ review.created_at.strftime('%d.%m.%Y') }}
+                  {% endif %}
+                </small>
+              </div>
+            </div>
+            <div class="rating">
+              {% for i in range(5) %}
+                {% if i < review.rating %}
+                <i class="bi bi-star-fill text-warning"></i>
+                {% else %}
+                <i class="bi bi-star text-secondary"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <p class="mb-2">{{ review.text }}</p>
+          {% if review.tags %}
+          <div class="review-tags">
+            {% for tag in review.tags.split(',') %}
+            <span class="badge bg-light text-dark me-1">{{ tag.strip() }}</span>
+            {% endfor %}
           </div>
           {% endif %}
         </div>
+        {% endfor %}
       </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="text-center py-4">
+      <i class="bi bi-chat-left-text display-4 text-muted mb-3"></i>
+      <p class="text-muted">Отзывов пока нет. Будьте первым!</p>
+      <button class="btn btn-beauty" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+        <i class="bi bi-pencil me-1"></i> Написать первый отзыв
+      </button>
+    </div>
+    {% endif %}
+  </div>
+</div>
     </div>
   </div>
 </div>

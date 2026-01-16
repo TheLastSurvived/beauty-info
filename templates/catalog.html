@@ -15,7 +15,16 @@
   <div class="row mb-4">
     <div class="col-md-8">
       <h1 class="page-title">Каталог салонов красоты</h1>
-      <p class="text-muted">Найдено салонов: {{ salons|length }}</p>
+      <p class="text-muted">Найдено салонов: {{ total_items }} 
+        {% if total_items > 0 %}
+          (показано {{ ((current_page - 1) * items_per_page + 1) }}-
+          {% if current_page * items_per_page > total_items %}
+            {{ total_items }}
+          {% else %}
+            {{ current_page * items_per_page }}
+          {% endif %})
+        {% endif %}
+      </p>
     </div>
     <div class="col-md-4">
       <div class="d-flex justify-content-md-end align-items-center">
@@ -38,6 +47,7 @@
           {% if current_rating %}
           <input type="hidden" name="min_rating" value="{{ current_rating }}">
           {% endif %}
+          <input type="hidden" name="page" value="1">
         </form>
       </div>
     </div>
@@ -57,83 +67,85 @@
         <!-- Форма фильтров -->
         <form method="get" action="/catalog" id="filterForm">
           
-          <!-- Фильтр по категориям -->
-          <div class="filter-section">
-            <h6 class="filter-title">Категория</h6>
-            <div class="filter-options">
-              {% for category in categories %}
-              <div class="form-check">
-                <input 
-                  class="form-check-input" 
-                  type="radio"  
-                  name="category" 
-                  value="{{ category }}" 
-                  id="category{{ loop.index }}"
-                  {% if current_category == category %}checked{% endif %}
-                  onchange="this.form.submit()"
-                />
-                <label class="form-check-label" for="category{{ loop.index }}">
-                  {{ category }}
-                  <span class="text-muted">({{ category_counts[category] }})</span>
-                </label>
-              </div>
-              {% endfor %}
-              <!-- Опция "Все категории" -->
-              <div class="form-check">
-                <input 
-                  class="form-check-input" 
-                  type="radio" 
-                  name="category" 
-                  value="" 
-                  id="categoryAll"
-                  {% if not current_category %}checked{% endif %}
-                  onchange="this.form.submit()"
-                />
-                <label class="form-check-label" for="categoryAll">
-                  Все категории
-                </label>
-              </div>
-            </div>
-          </div>
+       <!-- Фильтр по категориям -->
+<div class="filter-section">
+    <h6 class="filter-title">Категория</h6>
+    <div class="filter-options">
+        {% for category in categories %}
+        <div class="form-check">
+            <input 
+                class="form-check-input" 
+                type="radio"  
+                name="category" 
+                value="{{ category }}" 
+                id="category{{ loop.index }}"
+                {% if current_category == category %}checked{% endif %}
+                onchange="this.form.submit()"
+            />
+            <label class="form-check-label" for="category{{ loop.index }}">
+                {{ category }}
+                <span class="text-muted">({{ category_counts[category] }})</span>
+            </label>
+        </div>
+        {% endfor %}
+        <!-- Опция "Все категории" -->
+        <div class="form-check">
+            <input 
+                class="form-check-input" 
+                type="radio" 
+                name="category" 
+                value="" 
+                id="categoryAll"
+                {% if not current_category %}checked{% endif %}
+                onchange="this.form.submit()"
+            />
+            <label class="form-check-label" for="categoryAll">
+                Все категории
+                <span class="text-muted">({{ all_categories_count }})</span>
+            </label>
+        </div>
+    </div>
+</div>
 
-          <!-- Фильтр по районам -->
-          <div class="filter-section">
-            <h6 class="filter-title">Район</h6>
-            <div class="filter-options">
-              {% for district in districts %}
-              <div class="form-check">
-                <input 
-                  class="form-check-input" 
-                  type="radio" 
-                  name="district" 
-                  value="{{ district }}" 
-                  id="district{{ loop.index }}"
-                  {% if current_district == district %}checked{% endif %}
-                  onchange="this.form.submit()"
-                />
-                <label class="form-check-label" for="district{{ loop.index }}">
-                  {{ district }}
-                  <span class="text-muted">({{ district_counts[district] }})</span>
-                </label>
-              </div>
-              {% endfor %}
-              <!-- Опция "Все районы" -->
-              <div class="form-check">
-                <input 
-                  class="form-check-input" 
-                  type="radio" 
-                  name="district" 
-                  value="" 
-                  id="districtAll"
-                  {% if not current_district %}checked{% endif %}
-                  onchange="this.form.submit()"
-                />
-                <label class="form-check-label" for="districtAll">
-                  Все районы
-                </label>
-              </div>
-            </div>
-          </div>
+<!-- Фильтр по районам -->
+<div class="filter-section">
+    <h6 class="filter-title">Район</h6>
+    <div class="filter-options">
+        {% for district in districts %}
+        <div class="form-check">
+            <input 
+                class="form-check-input" 
+                type="radio" 
+                name="district" 
+                value="{{ district }}" 
+                id="district{{ loop.index }}"
+                {% if current_district == district %}checked{% endif %}
+                onchange="this.form.submit()"
+            />
+            <label class="form-check-label" for="district{{ loop.index }}">
+                {{ district }}
+                <span class="text-muted">({{ district_counts[district] }})</span>
+            </label>
+        </div>
+        {% endfor %}
+        <!-- Опция "Все районы" -->
+        <div class="form-check">
+            <input 
+                class="form-check-input" 
+                type="radio" 
+                name="district" 
+                value="" 
+                id="districtAll"
+                {% if not current_district %}checked{% endif %}
+                onchange="this.form.submit()"
+            />
+            <label class="form-check-label" for="districtAll">
+                Все районы
+                <span class="text-muted">({{ all_districts_count }})</span>
+            </label>
+        </div>
+    </div>
+</div>
 
           <!-- Фильтр по рейтингу -->
           <div class="filter-section">
@@ -149,8 +161,9 @@
             </div>
           </div>
 
-          <!-- Скрытое поле для сортировки -->
+          <!-- Скрытые поля -->
           <input type="hidden" name="sort_by" value="{{ current_sort }}">
+          <input type="hidden" name="page" value="1">
           
           <!-- Кнопка применения (не нужна с onchange, но оставим для визуала) -->
           <button type="submit" class="btn btn-beauty w-100 mt-3">
@@ -255,6 +268,78 @@
           </div>
         {% endif %}
       </div>
+
+      <!-- Пагинация -->
+      {% if total_pages > 1 %}
+      <nav aria-label="Навигация по страницам" class="mt-5">
+        <ul class="pagination justify-content-center">
+          <!-- Кнопка "Назад" -->
+          <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+            <a class="page-link" 
+               href="?page={{ current_page - 1 }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_district %}&district={{ current_district }}{% endif %}{% if current_rating %}&min_rating={{ current_rating }}{% endif %}&sort_by={{ current_sort }}" 
+               aria-label="Предыдущая">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          
+          <!-- Первая страница -->
+          {% if current_page > 3 %}
+          <li class="page-item">
+            <a class="page-link" 
+               href="?page=1{% if current_category %}&category={{ current_category }}{% endif %}{% if current_district %}&district={{ current_district }}{% endif %}{% if current_rating %}&min_rating={{ current_rating }}{% endif %}&sort_by={{ current_sort }}">
+              1
+            </a>
+          </li>
+          {% if current_page > 4 %}
+          <li class="page-item disabled">
+            <span class="page-link">...</span>
+          </li>
+          {% endif %}
+          {% endif %}
+          
+          <!-- Страницы вокруг текущей -->
+          {% set start_page = [current_page - 2, 1]|max %}
+          {% set end_page = [current_page + 2, total_pages]|min %}
+          {% for page_num in range(start_page, end_page + 1) %}
+            <li class="page-item {% if page_num == current_page %}active{% endif %}">
+              <a class="page-link" 
+                 href="?page={{ page_num }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_district %}&district={{ current_district }}{% endif %}{% if current_rating %}&min_rating={{ current_rating }}{% endif %}&sort_by={{ current_sort }}">
+                {{ page_num }}
+              </a>
+            </li>
+          {% endfor %}
+          
+          <!-- Последняя страница -->
+          {% if current_page < total_pages - 2 %}
+          {% if current_page < total_pages - 3 %}
+          <li class="page-item disabled">
+            <span class="page-link">...</span>
+          </li>
+          {% endif %}
+          <li class="page-item">
+            <a class="page-link" 
+               href="?page={{ total_pages }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_district %}&district={{ current_district }}{% endif %}{% if current_rating %}&min_rating={{ current_rating }}{% endif %}&sort_by={{ current_sort }}">
+              {{ total_pages }}
+            </a>
+          </li>
+          {% endif %}
+          
+          <!-- Кнопка "Вперед" -->
+          <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+            <a class="page-link" 
+               href="?page={{ current_page + 1 }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_district %}&district={{ current_district }}{% endif %}{% if current_rating %}&min_rating={{ current_rating }}{% endif %}&sort_by={{ current_sort }}" 
+               aria-label="Следующая">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Информация о страницах -->
+        <div class="text-center text-muted mt-2">
+          Страница {{ current_page }} из {{ total_pages }}
+        </div>
+      </nav>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -321,6 +406,15 @@
         toast.remove();
       }, 3000);
     }
+
+    // Функция для сброса страницы при изменении фильтров
+    document.querySelectorAll('#filterForm input[type="radio"], #filterForm select').forEach(function(element) {
+      element.addEventListener('change', function() {
+        // Устанавливаем страницу в 1 при изменении фильтров
+        document.querySelector('#filterForm input[name="page"]').value = '1';
+      });
+    });
   });
 </script>
+
 {% endblock %}

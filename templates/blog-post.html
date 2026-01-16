@@ -1,3 +1,4 @@
+<!-- templates/blog-post.html -->
 {% extends "base.html" %} {% block content %}
 <!-- Контент страницы записи блога -->
 <div class="container mt-5 pt-4">
@@ -6,8 +7,13 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Главная</a></li>
       <li class="breadcrumb-item"><a href="/blog">Блог</a></li>
+      {% if post.category %}
+      <li class="breadcrumb-item">
+        <a href="/blog?category={{ post.category|urlencode }}">{{ post.category }}</a>
+      </li>
+      {% endif %}
       <li class="breadcrumb-item active" aria-current="page">
-        Как выбрать салон красоты
+        {{ post.title|truncate(30) }}
       </li>
     </ol>
   </nav>
@@ -16,174 +22,224 @@
     <!-- Основной контент -->
     <div class="col-lg-8 mx-auto">
       <!-- Заголовок статьи -->
-      <div class="post-header">
-        <h1 class="post-title">
-          Как выбрать салон красоты: 7 важных критериев
-        </h1>
+      <div class="post-header mb-4">
+        <h1 class="post-title mb-3">{{ post.title }}</h1>
 
-        <div class="post-meta">
-          <span><i class="bi bi-calendar"></i> 15 декабря 2023</span>
-          <span><i class="bi bi-eye"></i> 1 245 просмотров</span>
+        <div class="post-meta mb-3">
+          <span class="me-4"><i class="bi bi-calendar me-1"></i> {{ post.created_at.strftime('%d %B %Y') }}</span>
+          <span class="me-4"><i class="bi bi-eye me-1"></i> {{ post.views_count }} просмотров</span>
+          {% if post.author %}
+          <span><i class="bi bi-person me-1"></i> {{ post.author }}</span>
+          {% endif %}
         </div>
 
-        <div class="post-category">Советы</div>
+        {% if post.category %}
+        <div class="post-category mb-4">
+          <a href="/blog?category={{ post.category|urlencode }}" class="badge bg-beauty text-decoration-none">
+            {{ post.category }}
+          </a>
+        </div>
+        {% endif %}
       </div>
 
       <!-- Изображение статьи -->
-      <div class="post-image">
-        <img src="../static/img/1.jpg" alt="Как выбрать салон красоты" />
+      {% if post.image_url %}
+      <div class="post-image mb-5">
+        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="img-fluid rounded" />
       </div>
+      {% endif %}
 
       <!-- Содержимое статьи -->
-      <div class="post-content">
-        <p>
-          Выбор салона красоты — важное решение, от которого зависит не только
-          ваш внешний вид, но и здоровье. Неправильный выбор может привести к
-          разочарованию, а иногда и к серьезным проблемам. В этой статье мы
-          расскажем о 7 ключевых критериях, на которые стоит обратить внимание
-          при выборе салона красоты или парикмахерской.
-        </p>
-
-        <div class="highlight-box">
-          <strong>Важно:</strong> Не стоит выбирать салон только по цене или
-          расположению. Качество услуг и безопасность должны быть на первом
-          месте.
+      <div class="post-content mb-5">
+        {% if post.excerpt %}
+        <div class="lead mb-4">
+          {{ post.excerpt }}
         </div>
-
-        <h2>1. Репутация и отзывы</h2>
-        <p>
-          Начните с изучения отзывов в интернете. Обращайте внимание не только
-          на общий рейтинг, но и на содержание отзывов. Реальные клиенты обычно
-          описывают свои впечатления подробно, отмечая как положительные, так и
-          отрицательные моменты.
-        </p>
-        <p>Что искать в отзывах:</p>
-        <ul>
-          <li>Профессионализм мастеров</li>
-          <li>Чистоту и гигиену в салоне</li>
-          <li>Качество используемых материалов</li>
-          <li>Вежливость персонала</li>
-          <li>Соблюдение сроков</li>
-        </ul>
-
-        <h2>2. Квалификация мастеров</h2>
-        <p>
-          Опыт и образование мастеров — один из самых важных критериев.
-          Уточните:
-        </p>
-        <ul>
-          <li>Сколько лет работает мастер</li>
-          <li>Какое образование и сертификаты имеет</li>
-          <li>Проходит ли регулярное повышение квалификации</li>
-          <li>Есть ли портфолио с работами</li>
-        </ul>
-
-        <h2>3. Гигиена и чистота</h2>
-        <p>
-          Обязательно обратите внимание на чистоту в салоне. Это касается не
-          только внешнего вида помещений, но и:
-        </p>
-        <ul>
-          <li>Стерилизации инструментов</li>
-          <li>Использования одноразовых материалов</li>
-          <li>Чистоты рабочих мест</li>
-          <li>Наличия дезинфицирующих средств</li>
-        </ul>
-
-        <h2>4. Качество материалов</h2>
-        <p>
-          Узнайте, какие бренды косметики и материалов использует салон.
-          Профессиональные салоны работают с известными марками, которые
-          гарантируют качество и безопасность.
-        </p>
-
-        <h2>5. Консультация перед процедурой</h2>
-        <p>
-          Хороший мастер всегда проводит подробную консультацию перед
-          процедурой. Он должен:
-        </p>
-        <ul>
-          <li>Выяснить ваши пожелания</li>
-          <li>Рассказать о процедуре</li>
-          <li>Обсудить возможные варианты</li>
-          <li>Предупредить о противопоказаниях</li>
-        </ul>
-
-        <h2>6. Соотношение цены и качества</h2>
-        <p>
-          Не всегда высокая цена означает высокое качество, но и слишком низкие
-          цены должны насторожить. Сравните цены в нескольких салонах и оцените,
-          что входит в стоимость.
-        </p>
-
-        <h2>7. Атмосфера и комфорт</h2>
-        <p>
-          Вы должны чувствовать себя комфортно в салоне. Обратите внимание на:
-        </p>
-        <ul>
-          <li>Дружелюбность персонала</li>
-          <li>Удобство расположения</li>
-          <li>Наличие парковки</li>
-          <li>Интерьер и атмосферу</li>
-        </ul>
-
-        <h2>Заключение</h2>
-        <p>
-          Выбор салона красоты требует внимательного подхода. Не торопитесь с
-          решением, соберите информацию, почитайте отзывы и, если возможно,
-          посетите салон лично перед записью на процедуру. Помните, что хороший
-          салон всегда открыт для диалога и готов ответить на все ваши вопросы.
-        </p>
-
-        <p>
-          На нашем сайте вы можете найти проверенные салоны с реальными отзывами
-          клиентов. Используйте фильтры для поиска и не стесняйтесь задавать
-          вопросы администраторам салонов.
-        </p>
+        {% endif %}
+        
+        {{ post.content|safe }}
       </div>
 
       <!-- Теги -->
-      <div class="post-tags">
-        <p><strong>Теги:</strong></p>
-        <a href="#" class="tag">салон красоты</a>
-        <a href="#" class="tag">выбор салона</a>
-        <a href="#" class="tag">советы</a>
-        <a href="#" class="tag">парикмахерская</a>
-        <a href="#" class="tag">критерии выбора</a>
-        <a href="#" class="tag">безопасность</a>
+      {% if tags %}
+      <div class="post-tags mb-5">
+        <p class="mb-3"><strong><i class="bi bi-tags me-2"></i>Теги:</strong></p>
+        <div>
+          {% for tag in tags %}
+          <a href="/blog?tag={{ tag.name|urlencode }}" class="tag me-2 mb-2">{{ tag.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Социальные кнопки -->
+      <div class="social-share mb-5">
+        <h6 class="mb-3"><i class="bi bi-share me-2"></i>Поделиться:</h6>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-secondary btn-sm" onclick="shareToFacebook()">
+            <i class="bi bi-facebook me-1"></i> Facebook
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="shareToVK()">
+            <i class="bi bi-vk me-1"></i> ВКонтакте
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="shareToTelegram()">
+            <i class="bi bi-telegram me-1"></i> Telegram
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="copyLink()">
+            <i class="bi bi-link me-1"></i> Копировать ссылку
+          </button>
+        </div>
       </div>
 
       <!-- Навигация по статьям -->
-      <div class="navigation-links">
-        <a href="#" class="nav-link-blog">
-          <i class="bi bi-chevron-left"></i>
-          <div>
-            <small>Предыдущая статья</small>
-            <div>Тренды в парикмахерском искусстве на 2024 год</div>
+      {% if similar_posts %}
+      <div class="similar-posts mb-5">
+        <h4 class="mb-4"><i class="bi bi-bookmarks me-2"></i>Похожие статьи</h4>
+        <div class="row">
+          {% for similar_post in similar_posts %}
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+              {% if similar_post.image_url %}
+              <img src="{{ similar_post.image_url }}" class="card-img-top" alt="{{ similar_post.title }}" style="height: 180px; object-fit: cover;">
+              {% endif %}
+              <div class="card-body">
+                <h6 class="card-title">{{ similar_post.title }}</h6>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small class="text-muted">{{ similar_post.created_at.strftime('%d.%m.%Y') }}</small>
+                  <a href="/blog/{{ similar_post.slug }}" class="btn btn-beauty btn-sm">Читать</a>
+                </div>
+              </div>
+            </div>
           </div>
-        </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
 
-        <a href="#" class="nav-link-blog">
-          <div class="text-end">
-            <small>Следующая статья</small>
-            <div>Правильный уход за ногтями</div>
+      <!-- Комментарии -->
+      <div id="comments" class="comments-section mb-5">
+        <h4 class="mb-4">
+          <i class="bi bi-chat-text me-2"></i>Комментарии 
+          <span class="badge bg-secondary ms-2">{{ comments|length }}</span>
+        </h4>
+        
+        {% if comments %}
+        <div class="comments-list mb-4">
+          {% for comment in comments %}
+          {% if comment.is_approved %}
+          <div class="comment mb-3 pb-3 border-bottom">
+            <div class="comment-header d-flex justify-content-between mb-2">
+              <div>
+                <strong>{{ comment.author_name }}</strong>
+                {% if comment.author_email %}
+                <small class="text-muted ms-2">{{ comment.author_email }}</small>
+                {% endif %}
+              </div>
+              <small class="text-muted">{{ comment.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
+            <div class="comment-body">
+              {{ comment.content|replace('\n', '<br>')|safe }}
+            </div>
           </div>
-          <i class="bi bi-chevron-right"></i>
-        </a>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          Пока нет комментариев. Будьте первым!
+        </div>
+        {% endif %}
+
+        <!-- Форма добавления комментария -->
+        <div class="comment-form mt-5">
+          <h5 class="mb-3"><i class="bi bi-pencil-square me-2"></i>Добавить комментарий</h5>
+          <form method="post" action="/blog/{{ post.slug }}/comment" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="author_name" class="form-label">Имя *</label>
+                <input type="text" class="form-control" id="author_name" name="author_name" required>
+                <div class="invalid-feedback">
+                  Пожалуйста, введите ваше имя.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="author_email" class="form-label">Email (необязательно)</label>
+                <input type="email" class="form-control" id="author_email" name="author_email">
+                <div class="invalid-feedback">
+                  Пожалуйста, введите корректный email.
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Комментарий *</label>
+              <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+              <div class="invalid-feedback">
+                Пожалуйста, напишите комментарий.
+              </div>
+              <div class="form-text">
+                Ваш комментарий будет опубликован после проверки модератором.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-beauty">
+              <i class="bi bi-send me-2"></i>Отправить комментарий
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Обработка кликов по тегам
-    document.querySelectorAll(".tag").forEach((tag) => {
+    document.querySelectorAll(".post-tags .tag").forEach((tag) => {
       tag.addEventListener("click", function (e) {
         e.preventDefault();
         const tagName = this.textContent;
-        alert(`Поиск по тегу: "${tagName}" (функция в разработке)`);
+        window.location.href = `/blog?tag=${encodeURIComponent(tagName)}`;
       });
     });
+
+    // Валидация формы комментария
+    const form = document.querySelector('.needs-validation');
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    }
+
+    // Кнопка "Копировать ссылку"
+    window.copyLink = function() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Ссылка скопирована в буфер обмена!');
+      }).catch(err => {
+        console.error('Ошибка копирования: ', err);
+        alert('Не удалось скопировать ссылку');
+      });
+    };
+
+    // Функции для социальных сетей
+    const pageUrl = encodeURIComponent(window.location.href);
+    const pageTitle = encodeURIComponent(document.title);
+
+    window.shareToFacebook = function() {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`, '_blank');
+    };
+
+    window.shareToVK = function() {
+      window.open(`https://vk.com/share.php?url=${pageUrl}&title=${pageTitle}`, '_blank');
+    };
+
+    window.shareToTelegram = function() {
+      window.open(`https://t.me/share/url?url=${pageUrl}&text=${pageTitle}`, '_blank');
+    };
   });
 </script>
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -50,24 +51,28 @@
               <a class="nav-link" href="/contact">Контакты</a>
             </li>
           </ul>
-
-            <form class="d-flex me-3 search-form" action="/catalog/search" method="post">
-            <div class="input-group search-form">
-              <input
-                type="text"
-                class="form-control search-input"
-                placeholder="Поиск салонов..."
-                name="search_query"
-                aria-label="Поиск салонов"
-              />
-              <button class="btn search-btn" type="submit">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-
-            
-          </form>
-
+          
+          <!-- Поле поиска с автодополнением -->
+          <div class="search-autocomplete navbar-search-form me-3">
+            <form action="/catalog/search" method="post" id="searchForm">
+              <div class="navbar-search-container">
+                <input
+                  type="text"
+                  class="navbar-search-input"
+                  id="searchInput"
+                  name="search_query"
+                  placeholder="Поиск салонов..."
+                  aria-label="Поиск салонов"
+                  autocomplete="off"
+                />
+                <button class="navbar-search-btn" type="submit">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </form>
+            <div class="search-autocomplete-results" id="autocompleteResults"></div>
+          </div>
+          
           <div class="d-flex">
             <a class="btn btn-beauty me-2" href="/login">
               <i class="bi bi-person me-1"></i> Войти
@@ -149,5 +154,6 @@
     </footer>
 
     <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/search.js"></script>
   </body>
 </html>
