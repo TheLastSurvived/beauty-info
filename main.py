@@ -87,7 +87,7 @@ async def home(request: Request, db: Session = Depends(get_db)):
     
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "title": "BeautyCity - Информационный ресурс о салонах красоты",
+        "title": "Красота в Гродно - Информационный ресурс о салонах красоты",
         "stats": {
             "total_salons": total_salons,
             "total_reviews": total_reviews,
@@ -110,7 +110,7 @@ async def contact(request: Request, db: Session = Depends(get_db)):
         "contact.html",
         {
             "request": request,
-            "title": "Контакты и информация - BeautyCity",
+            "title": "Контакты и информация - Красота в Гродно",
         },
     )
 
@@ -173,7 +173,7 @@ async def blog(
         "blog.html",
         {
             "request": request,
-            "title": "Блог о красоте - BeautyCity",
+            "title": "Блог о красоте - Красота в Гродно",
             "posts": posts,
             "categories": categories,
             "popular_posts": popular_posts,
@@ -287,7 +287,7 @@ async def blog_post(request: Request, slug: str, db: Session = Depends(get_db)):
         "blog-post.html",
         {
             "request": request,
-            "title": post.title + " - BeautyCity",
+            "title": post.title + " - Красота в Гродно",
             "post": post,
             "comments": comments,
             "similar_posts": similar_posts[:4],  # Ограничиваем 3 постами
@@ -710,7 +710,7 @@ async def login(request: Request, db: Session = Depends(get_db)):
         "login.html",
         {
             "request": request,
-            "title": "Вход - BeautyCity",
+            "title": "Вход - Красота в Гродно",
         },
     )
 
@@ -721,7 +721,7 @@ async def register(request: Request, db: Session = Depends(get_db)):
         "register.html",
         {
             "request": request,
-            "title": "Регистрация - BeautyCity",
+            "title": "Регистрация - Красота в Гродно",
         },
     )
 
